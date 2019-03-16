@@ -15,7 +15,7 @@ const InputStyled = styled(InputMask)`
         font-size: 16px;
         border-radius: 5px;
         border: 1px solid #cccccc;
-        width: 390px;
+        width: 550px;
         max-width: 100%;
         box-sizing: border-box;
     }

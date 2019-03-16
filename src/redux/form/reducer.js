@@ -1,6 +1,7 @@
 // Types
 import {
     FETCH_REGISTER_FORM,
+    EDIT_INTERESTS
 } from './types';
 
 const INITIAL_STATE = {
@@ -14,7 +15,7 @@ const INITIAL_STATE = {
         country: '',
         addressType: '',
         address: '',
-        interest: '',
+        interest: [],
         receiveNews: false,
         files: []
     }
@@ -28,6 +29,15 @@ const formReducer = (state = INITIAL_STATE, action) => {
                 register: {
                     ...state.register,
                     ...action.data
+                }
+            }
+
+        case EDIT_INTERESTS.SUCCESS:
+            return {
+                ...state,
+                register: {
+                    ...state.register,
+                    interest: action.tags
                 }
             }
 

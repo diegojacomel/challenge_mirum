@@ -1,6 +1,9 @@
 // Modules
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
+
+// Containers
+import Header from '../Header/Header';
 
 // Components
 import Button from '../../components/Button/Button'; 
@@ -9,7 +12,7 @@ const HomeWrapper = styled('main')`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: calc(100vh - 100px);
 `
 
 class Home extends Component {
@@ -17,11 +20,14 @@ class Home extends Component {
 
     render() {
         return (
-            <HomeWrapper>
-                <Button color="default" rounded="md" size="xg" linkTo="/register">
-                    Cadastrar
-                </Button>
-            </HomeWrapper>
+            <Fragment>
+                <Header />
+                <HomeWrapper>
+                    <Button color="default" rounded="md" size="xg" linkTo="/register">
+                        Cadastrar
+                    </Button>
+                </HomeWrapper>
+            </Fragment>
         );
     }
 }

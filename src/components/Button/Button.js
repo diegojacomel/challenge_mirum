@@ -106,11 +106,10 @@ const LinkStyle = styled(Link)`
     border-radius: 5px;
     font-size: 16px;
     color: #666666;
-    border: 1px solid #999999;
     background: #eeeeee;
+    ${({ theme, outline }) => OutlineButton(theme, outline, theme.colors.primary)};
     &:hover {
-        background: #999999;
-        color: #ffffff;
+        ${({ theme, outline }) => OutlineButton(theme, outline, theme.colors.hover.primary)};
     }
     &:last-child {
         margin-right: 0;

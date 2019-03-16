@@ -7,7 +7,6 @@ import Container from '../../components/Container/Container';
 
 const HeaderStyled = styled('header')`
     padding: 15px;
-    margin-bottom: 20px;
     background: #f2f2f2;
 `
 
