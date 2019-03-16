@@ -1,5 +1,5 @@
 // Modules
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from 'prop-types';
 
 // Components
@@ -91,23 +91,39 @@ const ButtonStyle = styled('button')`
 `;
 
 const LinkStyle = styled(Link)`
+    display: inline-block;
     text-decoration: none;
     color: inherit;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    line-height: 1;
+    transition: all 0.3s;
+    margin-right: 15px;
+    white-space: nowrap;
+    padding: 20px 30px;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #666666;
+    border: 1px solid #999999;
+    background: #eeeeee;
+    &:hover {
+        background: #999999;
+        color: #ffffff;
+    }
+    &:last-child {
+        margin-right: 0;
+    }
+    & > span {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 `
 
 const Button = ({ children, type, color, outline, size, rounded, block, icon, iconSize, iconColor, iconLeft, disabled, onClick, linkTo }) => (
-    <ButtonStyle
-        type={type}
-        color={color}
-        outline={outline}
-        size={size}
-        rounded={rounded}
-        block={block}
-        iconLeft={iconLeft}
-        onClick={onClick}
-        disabled={disabled}
-        id="testButton"
-    >
+    <Fragment>
         {!!linkTo
             ?
             <LinkStyle id="testLinkButton" to={linkTo}>
@@ -122,17 +138,30 @@ const Button = ({ children, type, color, outline, size, rounded, block, icon, ic
                 </span>
             </LinkStyle>
             :
-            <span>
-                {children}
-                {icon
-                    ?
-                    <Icon tag={icon} iconSize={iconSize} iconColor={iconColor} />
-                    :
-                    null
-                }
-            </span>
+            <ButtonStyle
+                type={type}
+                color={color}
+                outline={outline}
+                size={size}
+                rounded={rounded}
+                block={block}
+                iconLeft={iconLeft}
+                onClick={onClick}
+                disabled={disabled}
+                id="testButton"
+            >
+                <span>
+                    {children}
+                    {icon
+                        ?
+                        <Icon tag={icon} iconSize={iconSize} iconColor={iconColor} />
+                        :
+                        null
+                    }
+                </span>
+            </ButtonStyle>
         }
-    </ButtonStyle>
+    </Fragment>
 );
 
 Button.propTypes = {

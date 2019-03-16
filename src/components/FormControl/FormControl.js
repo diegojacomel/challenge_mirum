@@ -5,6 +5,7 @@ import styled from 'styled-components';
 const FormControlWrapper = styled('div')`
     display: block;
     margin-bottom: 10px;
+    max-width: 100%;
     & > label {
         margin-bottom: 3px;
     }

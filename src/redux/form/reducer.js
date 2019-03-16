@@ -12,6 +12,7 @@ const INITIAL_STATE = {
         phone: '',
         uf: '',
         country: '',
+        addressType: '',
         address: '',
         interest: '',
         receiveNews: false,

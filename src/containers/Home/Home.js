@@ -19,7 +19,7 @@ class Home extends Component {
         return (
             <HomeWrapper>
                 <Button color="default" rounded="md" size="xg" linkTo="/register">
-                    Home
+                    Cadastrar
                 </Button>
             </HomeWrapper>
         );

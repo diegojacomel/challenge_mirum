@@ -7,8 +7,10 @@ const LabelStyled = styled('label')`
     font-size: 16px;
 `
 
-const Label = ({ children }) => (
-    <LabelStyled>
+const Label = ({ children, ...rest }) => (
+    <LabelStyled
+        {...rest}
+    >
         {children}
     </LabelStyled>
 )

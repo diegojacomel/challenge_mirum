@@ -3,8 +3,9 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Formik, Form, Field } from 'formik';
 import { connect } from 'react-redux';
-import Slider from 'rc-slider';
-import * as Yup from 'yup';
+
+// Containers
+import Header from '../Header/Header';
 
 // Components
 import Container from '../../components/Container/Container';
@@ -14,23 +15,25 @@ import Input from '../../components/Input/Input';
 import Select from '../../components/Select/Select';
 import Button from '../../components/Button/Button';
 import Thumbnail from '../../components/Thumbnail/Thumbnail';
-
-import Dropzone from "react-dropzone";
+import RadioGroup from '../../components/RadioGroup/RadioGroup';
+import Checkbox from '../../components/Checkbox/Checkbox';
 
 // Types
 import { FETCH_REGISTER_FORM } from '../../redux/form/types';
 
-// Styles
-import 'rc-slider/assets/index.css';
+// DataMock
+import dataMock from '../../utils/dataMock';
+
+// Validation
+import validation from './validations';
 
 const RegisterWrapper = styled('div')`
     display: block;
+    margin-bottom: 40px;
 `
 
-const SliderWrapper = styled('div')`
-    margin: 15px 0 30px;
-    width: 500px;
-    max-width: 100%;
+const NewsletterSpacing = styled('div')`
+    margin: 25px 0;
 `
 
 class Register extends Component {
@@ -48,6 +51,7 @@ class Register extends Component {
     render() {
         return (
             <RegisterWrapper>
+                <Header />
                 <Container>
                     <Formik
                         initialValues={{
@@ -58,6 +62,7 @@ class Register extends Component {
                             phone: '',
                             uf: '',
                             country: '',
+                            addressType: '',
                             address: '',
                             interest: '',
                             receiveNews: false,
@@ -78,20 +83,16 @@ class Register extends Component {
                                 }, null, 2)
                             );
                         }}
-                        validationSchema={Yup.object().shape({
-                            email: Yup.string()
-                            .email()
-                            .required('Required'),
-                        })}
+                        validationSchema={validation}
                         >
                         {form => {
                             const {
                                 values,
-                                touched,
                                 errors,
+                                touched,
                                 isSubmitting,
                                 handleChange,
-                                setFieldValue
+                                handleBlur,
                             } = form;
 
                             return (
@@ -127,7 +128,11 @@ class Register extends Component {
                                             type="text"
                                             value={values.firstName}
                                             onChange={handleChange}
-                                            onKeyUp={(e) => this.registerData(values)}
+                                            onKeyUp={() => this.registerData(values)}
+                                            maxLength={20}
+                                            errors={errors.firstName}
+                                            touched={touched.firstName}
+                                            onBlur={handleBlur}
                                         />
                                     </FormControl>
                                     <FormControl>
@@ -142,25 +147,20 @@ class Register extends Component {
                                             type="text"
                                             value={values.lastName}
                                             onChange={handleChange}
-                                            onKeyUp={(e) => this.registerData(values)}
+                                            onKeyUp={() => this.registerData(values)}
+                                            onBlur={handleBlur}
+                                            errors={errors.lastName}
+                                            touched={touched.lastName}
                                         />
                                     </FormControl>
                                     <FormControl>
                                         <Label>
                                             Idade
                                         </Label>
-                                        <SliderWrapper>
-                                            <Field
-                                                component={Slider}
-                                                min={13}
-                                                max={45}
-                                                marks={{ 13: '13-19', 20: '20-29', 30: '30-45', 45: '45 e acima' }}
-                                                step={null}
-                                                id="age"
-                                                name="age"
-                                                onChange={(e) => this.registerData(values)}
-                                            />
-                                        </SliderWrapper>
+                                        <RadioGroup 
+                                            onChange={handleChange}
+                                            onBlur={() => this.registerData(values)}
+                                        />
                                     </FormControl>
                                     <FormControl>
                                         <Label>
@@ -174,7 +174,10 @@ class Register extends Component {
                                             type="email"
                                             value={values.email}
                                             onChange={handleChange}
-                                            onKeyUp={(e) => this.registerData(values)}
+                                            onKeyUp={() => this.registerData(values)}
+                                            onBlur={handleBlur}
+                                            errors={errors.email}
+                                            touched={touched.email}
                                         />
                                     </FormControl>
                                     <FormControl>
@@ -185,11 +188,15 @@ class Register extends Component {
                                             component={Input}
                                             id="phone"
                                             name="phone"
-                                            placeholder="(41)99999-9999"
+                                            placeholder="(41) 99999-9999"
                                             type="phone"
                                             value={values.phone}
                                             onChange={handleChange}
-                                            onKeyUp={(e) => this.registerData(values)}
+                                            onKeyUp={() => this.registerData(values)}
+                                            onBlur={handleBlur}
+                                            mask="(99) 99999-9999"
+                                            errors={errors.phone}
+                                            touched={touched.phone}
                                         />
                                     </FormControl>
                                     <FormControl>
@@ -202,9 +209,15 @@ class Register extends Component {
                                             name="uf"
                                             value={values.uf}
                                             onChange={handleChange}
-                                            onBlur={(e) => this.registerData(values)}
+                                            onBlur={handleBlur}
+                                            onClick={() => this.registerData(values)}
+                                            errors={errors.uf}
+                                            touched={touched.uf}
                                         >
-                                            <option value="">Estado</option>
+                                            <option value="">Selecione uma opção</option>
+                                            {dataMock.uf.map((uf, indexUf) => (
+                                                <option key={indexUf} value={uf}>{uf}</option>
+                                            ))}
                                         </Field>
                                     </FormControl>
                                     <FormControl>
@@ -217,9 +230,15 @@ class Register extends Component {
                                             name="country"
                                             value={values.country}
                                             onChange={handleChange}
-                                            onBlur={(e) => this.registerData(values)}
+                                            onBlur={handleBlur}
+                                            onClick={() => this.registerData(values)}
+                                            errors={errors.country}
+                                            touched={touched.country}
                                         >
-                                            <option value="">País</option>
+                                            <option value="">Selecione uma opção</option>
+                                            {dataMock.countries.map((uf, indexUf) => (
+                                                <option key={indexUf} value={uf}>{uf}</option>
+                                            ))}
                                         </Field>
                                     </FormControl>
                                     <FormControl>
@@ -228,15 +247,44 @@ class Register extends Component {
                                         </Label>
                                         <Field
                                             component={Select}
-                                            id="address"
-                                            name="address"
-                                            value={values.address}
+                                            id="addressType"
+                                            name="addressType"
+                                            value={values.addressType}
                                             onChange={handleChange}
-                                            onBlur={(e) => this.registerData(values)}
+                                            onBlur={handleBlur}
+                                            onClick={() => this.registerData(values)}
+                                            errors={errors.addressType}
+                                            touched={touched.addressType}
                                         >
-                                            <option value="">Selecione</option>
+                                            <option value="">Selecione uma opção</option>
+                                            {dataMock.address.map((uf, indexUf) => (
+                                                <option key={indexUf} value={uf}>{uf}</option>
+                                            ))}
                                         </Field>
                                     </FormControl>
+                                    {!!values.addressType
+                                        ?
+                                        <FormControl>
+                                            <Label>
+                                                Endereço
+                                            </Label>
+                                            <Field
+                                                component={Input}
+                                                id="address"
+                                                name="address"
+                                                placeholder="Endereço"
+                                                type="text"
+                                                value={values.address}
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                onKeyUp={() => this.registerData(values)}
+                                                errors={errors.address}
+                                                touched={touched.address}
+                                            />
+                                        </FormControl>
+                                        :
+                                        null
+                                    }
                                     <FormControl>
                                         <Label>
                                             Interesse
@@ -249,26 +297,25 @@ class Register extends Component {
                                             type="text"
                                             value={values.interest}
                                             onChange={handleChange}
-                                            onKeyUp={(e) => this.registerData(values)}
+                                            onBlur={handleBlur}
+                                            onKeyUp={() => this.registerData(values)}
+                                            errors={errors.interest}
+                                            touched={touched.interest}
                                         />
                                     </FormControl>
-                                    <FormControl>
-                                        <Field
-                                            component={Input}
-                                            id="receiveNews"
-                                            name="receiveNews"
-                                            placeholder="Digite seu interesse e aperte Enter"
-                                            type="checkbox"
-                                            checked={values.receiveNews}
-                                            onChange={handleChange}
-                                            onBlur={(e) => this.registerData(values)}
-                                        />
-                                    </FormControl>
-                                    {/* {errors.email && touched.email &&
-                                        <div className="input-feedback">
-                                            {errors.email}
-                                        </div>
-                                    } */}
+                                    <NewsletterSpacing>
+                                        <FormControl>
+                                            <Field
+                                                label="Desejo receber novidades por e-mail."
+                                                component={Checkbox}
+                                                id="receiveNews"
+                                                name="receiveNews"
+                                                checked={values.receiveNews}
+                                                onChange={handleChange}
+                                                onBlur={() => this.registerData(values)}
+                                            />
+                                        </FormControl>
+                                    </NewsletterSpacing>
                                     {/* className={errors.email && touched.email ? 'text-input error' : 'text-input'} */}
                                     <Button
                                         type="submit"
@@ -276,7 +323,7 @@ class Register extends Component {
                                         color="success"
                                         linkTo="/result"
                                     >
-                                        Submit
+                                        Salvar
                                     </Button>
                                 </Form>
                             );
