@@ -11,6 +11,9 @@ import Sidebar from '../Sidebar/Sidebar';
 import Container from '../../components/Container/Container';
 import Button from '../../components/Button/Button';
 
+// Types
+import { SEND_POST } from '../../redux/form/types';
+
 const ResultWrapper = styled('div')`
     display: block;
 `
@@ -34,6 +37,10 @@ const ContentWrapperMain = styled('div')`
     min-height: calc(100vh - 140px);
 `
 
+const Content = styled('div')`
+    margin-bottom: 30px;
+`
+
 class Result extends Component {
     state = {}
 
@@ -43,10 +50,19 @@ class Result extends Component {
 
         return interest.map((val, index) => {
             return (
-                <span>
+                <span key={index}>
                     {(interest.length - 1) !== index ? `${val}, ` : val}
                 </span>
             )
+        })
+    }
+
+    handleSubmit = () => {
+        const { props: { dispatch, formReducer: { register } } } = this;
+
+        dispatch({
+            type: SEND_POST.REQUEST,
+            register
         })
     }
 
@@ -68,15 +84,17 @@ class Result extends Component {
                             {firstName
                                 ?
                                 <Fragment>
-                                    <div>
+                                    <Content>
                                         Eu sou <strong>{firstName} {lastName}</strong> {radioGroup ? <span>e eu tenho mais de <strong>{radioGroup.slice(0, 2)} anos</strong></span> : ''} {email ? <span>e você pode enviar e-mails para <strong>{email}</strong></span> : ''}.
                                         Eu moro no estado do <strong>{uf}</strong>. Eu gosto de <strong>{this.renderInterests()}</strong>.
                                         Por favor me envie newsletter.
                                         Para me contatar ligue no telefone <strong>{phone}</strong>.
-                                    </div>
+                                    </Content>
                                     <Button
+                                        type="submit"
                                         color="success"
                                         size='lg'
+                                        onClick={this.handleSubmit}
                                     >
                                         Enviar
                                     </Button>

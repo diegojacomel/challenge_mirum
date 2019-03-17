@@ -1,5 +1,6 @@
 // Services
-import ExampleService from './example';
+import FormService from './form';
+
 export {
-    ExampleService
+    FormService
 }

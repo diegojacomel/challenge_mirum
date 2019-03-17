@@ -1,10 +1,10 @@
 import { all } from 'redux-saga/effects';
-import { exampleSaga } from './example/saga';
+import { formSaga } from './form/saga';
 
 function* rootSagas() {
     // here we initialize all the sagas from different files
     yield all([
-        ...exampleSaga
+        ...formSaga
     ]);
 }
 

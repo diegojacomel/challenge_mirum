@@ -40,12 +40,18 @@ const NewsletterSpacing = styled('div')`
 const ContentWrapper = styled('div')`
     display: flex;
     align-items: stretch;
+    @media screen and (max-width: 750px) {
+        flex-direction: column;
+    }
 `
 
 const ContentWrapperSide = styled('div')`
     width: 300px;
     padding-top: 40px;
-    height: calc(100vh - 140px);
+    padding-bottom: 40px;
+    @media screen and (max-width: 750px) {
+        width: 100%;
+    }
 `
 
 const ContentWrapperMain = styled('div')`
@@ -54,6 +60,9 @@ const ContentWrapperMain = styled('div')`
     padding-bottom: 30px;
     background: #f9f9f9;
     min-height: calc(100vh - 140px);
+    @media screen and (max-width: 750px) {
+        width: 100%;
+    }
 `
 
 class Register extends Component {
@@ -63,7 +72,7 @@ class Register extends Component {
 
     registerData = (data) => {
         const { props: { dispatch } } = this;
-        
+
         dispatch({
             type: FETCH_REGISTER_FORM.SUCCESS,
             data
@@ -96,6 +105,7 @@ class Register extends Component {
                     <ContentWrapperMain>
                     <Container>
                         <Formik
+                            enableReinitialize={true}
                             initialValues={register}
                             onSubmit={(values, { setSubmitting }) => {
                                 setTimeout(() => {
@@ -113,6 +123,7 @@ class Register extends Component {
                                     handleChange,
                                     handleBlur,
                                     isValid,
+                                    setFieldValue
                                 } = form;
 
                                 return (
@@ -158,10 +169,12 @@ class Register extends Component {
                                             <Label>
                                                 Idade
                                             </Label>
-                                            <RadioGroup 
+                                            <Field
+                                                id="radioGroup"
+                                                name="radioGroup"
+                                                component={RadioGroup} 
                                                 onChange={handleChange}
                                                 onBlur={() => this.registerData(values)}
-                                                value={register.radioGroup}
                                             />
                                         </FormControl>
                                         <FormControl>
@@ -316,7 +329,7 @@ class Register extends Component {
                                             type="button"
                                             color="success"
                                             size='lg'
-                                            disabled={!isValid || !!errors.length}
+                                            disabled={!!errors.length}
                                             onClick={() => this.handleSubmit()}
                                         >
                                             {isSubmitting

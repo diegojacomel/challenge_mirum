@@ -2,14 +2,14 @@
 import {
     FETCH_REGISTER_FORM,
     EDIT_INTERESTS,
-    UPLOAD_THUMBNAIL
+    UPLOAD_THUMBNAIL,
+    SEND_POST
 } from './types';
 
 const INITIAL_STATE = {
     register: {
         firstName: '',
         lastName: '',
-        age: 0,
         email: '',
         phone: '',
         uf: '',
@@ -20,7 +20,8 @@ const INITIAL_STATE = {
         receiveNews: false,
         thumbnail: '',
         radioGroup: ''
-    }
+    },
+    response: ''
 }
 
 const formReducer = (state = INITIAL_STATE, action) => {
@@ -30,7 +31,8 @@ const formReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 register: {
                     ...state.register,
-                    ...action.data
+                    ...action.data,
+                    thumbnail: state.register.thumbnail
                 }
             }
 
@@ -50,6 +52,23 @@ const formReducer = (state = INITIAL_STATE, action) => {
                     ...state.register,
                     thumbnail: action.thumbnail
                 }
+            }
+
+        case SEND_POST.REQUEST:
+            return {
+                ...state
+            }
+
+        case SEND_POST.SUCCESS:
+            return {
+                ...state,
+                response: action.message
+            }
+
+        case SEND_POST.FAILURE:
+            return {
+                ...state,
+                response: action.message
             }
 
         default:

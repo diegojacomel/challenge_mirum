@@ -84,7 +84,8 @@ class Interest extends Component {
     }
 
     render() {
-        const { state, props: { id, name, placeholder, type, ...rest } } = this;
+        const { state, props: { id, name, placeholder, type, formReducer, ...rest } } = this;
+        const { register: { interest } } = formReducer;
 
         return (
             <Fragment>
@@ -103,7 +104,7 @@ class Interest extends Component {
                 {!!state.tags.length
                     ?
                     <InterestTags>
-                        {state.tags.map((tag, indexTag) => (
+                        {interest.map((tag, indexTag) => (
                             <Button
                                 key={indexTag}
                                 type="button"
