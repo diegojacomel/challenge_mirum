@@ -39,7 +39,7 @@ const arrayAges = [
     '45 e acima'
 ]
 
-const RadioGroup = ({ onChange, onBlur }) => (
+const RadioGroup = ({ onChange, onBlur, value }) => (
     <RadioGroupWrapper>
         {arrayAges.map((age, index) => {
             return (

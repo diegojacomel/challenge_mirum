@@ -11,7 +11,7 @@ import Button from '../Button/Button';
 import { EDIT_INTERESTS } from '../../redux/form/types';
 
 const InterestStyled = styled('div')`
-    display: block
+    display: block;
 `
 
 const InterestTags = styled('div')`
@@ -27,6 +27,17 @@ class Interest extends Component {
     state = {
         tags: [],
         typed: ''
+    }
+
+    componentDidMount() {
+        const { props: { formReducer } } = this;
+        const { register: { interest } } = formReducer;
+
+        if (interest && interest.length) {
+            this.setState({
+                tags: interest
+            })
+        }
     }
 
     handleChange = (e) => {
@@ -73,7 +84,7 @@ class Interest extends Component {
     }
 
     render() {
-        const { state } = this;
+        const { state, props: { id, name, placeholder, type, ...rest } } = this;
 
         return (
             <Fragment>
@@ -81,7 +92,12 @@ class Interest extends Component {
                     <Input
                         onKeyUp={e => this.addInterest(e)}
                         onChange={e => this.handleChange(e)}
+                        id={id}
+                        name={name}
+                        placeholder={placeholder}
+                        type={type}
                         value={state.typed}
+                        {...rest}
                     />
                 </InterestStyled>
                 {!!state.tags.length

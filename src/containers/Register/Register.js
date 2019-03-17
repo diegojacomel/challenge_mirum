@@ -3,9 +3,11 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Formik, Form, Field } from 'formik';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 // Containers
 import Header from '../Header/Header';
+import Sidebar from '../Sidebar/Sidebar'
 
 // Components
 import Container from '../../components/Container/Container';
@@ -14,7 +16,6 @@ import Label from '../../components/Label/Label';
 import Input from '../../components/Input/Input';
 import Select from '../../components/Select/Select';
 import Button from '../../components/Button/Button';
-import Thumbnail from '../../components/Thumbnail/Thumbnail';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import Checkbox from '../../components/Checkbox/Checkbox';
 import Interest from '../../components/Interest/Interest';
@@ -56,7 +57,9 @@ const ContentWrapperMain = styled('div')`
 `
 
 class Register extends Component {
-    state = {}
+    state = {
+        redirect: false
+    }
 
     registerData = (data) => {
         const { props: { dispatch } } = this;
@@ -67,45 +70,37 @@ class Register extends Component {
         })
     }
 
+    handleSubmit = () => {
+        this.setState({
+            redirect: true
+        })
+    }
+
     render() {
+        const { state, props: { formReducer } } = this;
+        const { register } = formReducer;
+
+        if (state.redirect) {
+            return <Redirect to='/result'/>;
+        }
+
         return (
             <RegisterWrapper>
                 <Header />
                 <ContentWrapper>
                     <ContentWrapperSide>
                         <Container>
-                            Side
+                            <Sidebar />
                         </Container>
                     </ContentWrapperSide>
                     <ContentWrapperMain>
                     <Container>
                         <Formik
-                            initialValues={{
-                                firstName: '',
-                                lastName: '',
-                                email: '',
-                                phone: '',
-                                uf: '',
-                                country: '',
-                                addressType: '',
-                                address: '',
-                                receiveNews: false,
-                                files: []
-                            }}
+                            initialValues={register}
                             onSubmit={(values, { setSubmitting }) => {
                                 setTimeout(() => {
                                     setSubmitting(false);
                                 }, 500);
-
-                                alert(
-                                    JSON.stringify({
-                                        files: values.files.map(file => ({
-                                            fileName: file.name,
-                                            type: file.type,
-                                            size: `${file.size} bytes`
-                                        })),
-                                    }, null, 2)
-                                );
                             }}
                             validationSchema={validation}
                             >
@@ -117,29 +112,11 @@ class Register extends Component {
                                     isSubmitting,
                                     handleChange,
                                     handleBlur,
+                                    isValid,
                                 } = form;
 
                                 return (
                                     <Form>
-                                        {/* <Dropzone onDrop={(acceptedFiles) => {
-                                            if (acceptedFiles.length === 0) { return; }
-                                            setFieldValue("files", values.files.concat(acceptedFiles));
-                                        }}>
-                                            {({getRootProps, getInputProps}) => (
-                                                <section>
-                                                    <div {...getRootProps()}>
-                                                        <input {...getInputProps()} />
-                                                        <p>Click</p>
-                                                    </div>
-                                                    {values.files && values.files
-                                                        ?
-                                                        <Thumbnail file={new Blob(values.files)} />
-                                                        :
-                                                        null
-                                                    }
-                                                </section>
-                                            )}
-                                        </Dropzone> */}
                                         <FormControl>
                                             <Label>
                                                 Primeiro nome
@@ -184,6 +161,7 @@ class Register extends Component {
                                             <RadioGroup 
                                                 onChange={handleChange}
                                                 onBlur={() => this.registerData(values)}
+                                                value={register.radioGroup}
                                             />
                                         </FormControl>
                                         <FormControl>
@@ -313,7 +291,8 @@ class Register extends Component {
                                             <Label>
                                                 Interesse
                                             </Label>
-                                            <Interest
+                                            <Field
+                                                component={Interest}
                                                 id="interest"
                                                 name="interest"
                                                 placeholder="Digite seu interesse e aperte Enter"
@@ -333,20 +312,25 @@ class Register extends Component {
                                                 />
                                             </FormControl>
                                         </NewsletterSpacing>
-                                        {/* className={errors.email && touched.email ? 'text-input error' : 'text-input'} */}
                                         <Button
                                             type="button"
-                                            disabled={isSubmitting}
                                             color="success"
-                                            linkTo="/result"
+                                            size='lg'
+                                            disabled={!isValid || !!errors.length}
+                                            onClick={() => this.handleSubmit()}
                                         >
-                                            Salvar
+                                            {isSubmitting
+                                                ?
+                                                'Carregando ...'
+                                                :                                                
+                                                'Salvar'
+                                            }
                                         </Button>
                                     </Form>
                                 );
                             }}
                             </Formik>
-                    </Container>
+                        </Container>
                     </ContentWrapperMain>
                 </ContentWrapper>
             </RegisterWrapper>

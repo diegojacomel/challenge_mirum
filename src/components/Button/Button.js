@@ -88,6 +88,10 @@ const ButtonStyle = styled('button')`
             margin-right: ${({ iconLeft }) => iconLeft ? '10px' : '0'};
         }
     }
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
 `;
 
 const LinkStyle = styled(Link)`

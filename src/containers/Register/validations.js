@@ -3,7 +3,8 @@ import * as Yup from 'yup';
 
 const validation = Yup.object().shape({
     firstName: Yup.string()
-        .required('Campo obrigatório'),
+        .required('Campo obrigatório')
+        .max(20, 'O nome não pode ter mais de 20 caracteres'),
     lastName: Yup.string()
         .required('Campo obrigatório'),
     email: Yup.string()
@@ -18,8 +19,6 @@ const validation = Yup.object().shape({
     addressType: Yup.string()
         .required('Campo obrigatório'),
     address: Yup.string()
-        .required('Campo obrigatório'),
-    radioGroup: Yup.bool()
         .required('Campo obrigatório')
 })
 

@@ -26,7 +26,7 @@ const MessageValidation = styled('div')`
     color: #d30;
 `
 
-const Input = ({ type, name, onChange, onBlur, onKeyUp, placeholder, value, disabled, id, mask, errors, touched, ...rest }) => (
+const Input = ({ type, name, onChange, onBlur, onKeyUp, placeholder, value, disabled, id, mask, errors, touched }) => (
     <Fragment>   
         <InputStyled
             type={type}
@@ -39,7 +39,6 @@ const Input = ({ type, name, onChange, onBlur, onKeyUp, placeholder, value, disa
             disabled={disabled}
             id={id}
             mask={mask}
-            {...rest}
         />
         {errors && touched &&
             <MessageValidation>

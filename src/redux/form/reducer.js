@@ -1,7 +1,8 @@
 // Types
 import {
     FETCH_REGISTER_FORM,
-    EDIT_INTERESTS
+    EDIT_INTERESTS,
+    UPLOAD_THUMBNAIL
 } from './types';
 
 const INITIAL_STATE = {
@@ -17,7 +18,8 @@ const INITIAL_STATE = {
         address: '',
         interest: [],
         receiveNews: false,
-        files: []
+        thumbnail: '',
+        radioGroup: ''
     }
 }
 
@@ -38,6 +40,15 @@ const formReducer = (state = INITIAL_STATE, action) => {
                 register: {
                     ...state.register,
                     interest: action.tags
+                }
+            }
+
+        case UPLOAD_THUMBNAIL.SUCCESS:
+            return {
+                ...state,
+                register: {
+                    ...state.register,
+                    thumbnail: action.thumbnail
                 }
             }
 

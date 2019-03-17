@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 // Containers
 import Header from '../Header/Header';
+import Sidebar from '../Sidebar/Sidebar';
 
 // Components
 import Container from '../../components/Container/Container';
@@ -51,7 +52,7 @@ class Result extends Component {
 
     render() {
         const { props: { formReducer: { register } } } = this;
-        const { firstName, lastName, email, phone, uf, radioGroup, interest, files } = register;
+        const { firstName, lastName, email, phone, uf, radioGroup } = register;
 
         return (
             <ResultWrapper>
@@ -59,7 +60,7 @@ class Result extends Component {
                 <ContentWrapper>
                     <ContentWrapperSide>
                         <Container>
-                            Side
+                            <Sidebar />
                         </Container>
                     </ContentWrapperSide>
                     <ContentWrapperMain>
@@ -73,7 +74,10 @@ class Result extends Component {
                                         Por favor me envie newsletter.
                                         Para me contatar ligue no telefone <strong>{phone}</strong>.
                                     </div>
-                                    <Button color="success">
+                                    <Button
+                                        color="success"
+                                        size='lg'
+                                    >
                                         Enviar
                                     </Button>
                                 </Fragment>
