@@ -20,7 +20,13 @@ const InterestTags = styled('div')`
     border: 2px dashed #eeeeee;
     width: 600px;
     max-width: 100%;
-    padding: 15px;
+    padding: 15px 15px 0 15px;
+`
+
+const ButtonWrapper = styled('div')`
+    display: inline-block;
+    margin-bottom: 15px;
+    margin-right: 15px;
 `
 
 class Interest extends Component {
@@ -102,16 +108,18 @@ class Interest extends Component {
                     ?
                     <InterestTags>
                         {interest.map((tag, indexTag) => (
-                            <Button
-                                key={indexTag}
-                                type="button"
-                                icon="cross"
-                                iconColor="white"
-                                iconSize="sm"
-                                onClick={() => this.removeInterest(indexTag)}
-                            >
-                                {tag}
-                            </Button>
+                            <ButtonWrapper>
+                                <Button
+                                    key={indexTag}
+                                    type="button"
+                                    icon="cross"
+                                    iconColor="white"
+                                    iconSize="sm"
+                                    onClick={() => this.removeInterest(indexTag)}
+                                >
+                                    {tag}
+                                </Button>
+                            </ButtonWrapper>
                         ))}
                     </InterestTags>
                     :
