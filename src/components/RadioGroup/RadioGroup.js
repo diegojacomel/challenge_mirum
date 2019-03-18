@@ -1,6 +1,7 @@
 // Modules
 import React from 'react'
 import styled from 'styled-components';
+import { Field } from 'formik'
 
 // Components
 import Radio from '../Radio/Radio';
@@ -39,21 +40,19 @@ const arrayAges = [
     '45 e acima'
 ]
 
-const RadioGroup = ({ onChange, onBlur, id, name }) => (
+const RadioGroup = ({ id, parentValue, name }) => (
     <RadioGroupWrapper>
-        {arrayAges.map((age, index) => {
-            return (
-                <Radio
-                    key={index}
-                    label={age}
-                    id={id}
-                    name={name}
-                    value={age}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                />
-            )
-        })}
+        {arrayAges.map((age, index) => (
+            <Field
+                component={Radio}
+                key={index}
+                label={age}
+                id={id}
+                value={age}
+                parentValue={parentValue}
+                name={name}
+            />
+        ))}
     </RadioGroupWrapper>
 )
 

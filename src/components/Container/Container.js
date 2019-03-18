@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components';
 
 const ContainerWrapper = styled('div')`
-    padding: 0 15px;
+    padding: 0 30px;
     box-sizing: content-box;
 `
 

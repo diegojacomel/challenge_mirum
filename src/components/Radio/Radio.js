@@ -25,17 +25,15 @@ const RadioStyled = styled('input')`
     }
 `
 
-const Radio = ({ label, id, name, value, onChange, disabled, onBlur, ...rest }) => (
+const Radio = ({ id, value, parentValue, disabled, label, field }) => (
     <LabelToRadio>
         <RadioStyled
+            {...field}
             type="radio"
             id={id}
-            name={name}
+            checked={value === parentValue}
             value={value}
-            onChange={onChange}
             disabled={disabled}
-            onBlur={onBlur}
-            {...rest}
         />
         {label}
     </LabelToRadio>

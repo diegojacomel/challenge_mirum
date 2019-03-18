@@ -191,7 +191,7 @@ Button.defaultProps = {
     block: false,
     disabled: false,
     linkTo: null,
-    onClick: () => console.log('clicked button')
+    onClick: () => {}
 }
 
 export default Button;

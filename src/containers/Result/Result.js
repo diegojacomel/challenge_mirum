@@ -38,7 +38,14 @@ const ContentWrapperMain = styled('div')`
 `
 
 const Content = styled('div')`
+    background: ${props => props.theme.colors.white};
+    border-radius: 3px;
+    padding: 20px;
     margin-bottom: 30px;
+`
+
+const ButtonWrapper = styled('div')`
+    margin-top: 30px;
 `
 
 class Result extends Component {
@@ -67,7 +74,7 @@ class Result extends Component {
     }
 
     render() {
-        const { props: { formReducer: { register } } } = this;
+        const { props: { formReducer: { register, response } } } = this;
         const { firstName, lastName, email, phone, uf, radioGroup } = register;
 
         return (
@@ -89,16 +96,26 @@ class Result extends Component {
                                         Eu moro no estado do <strong>{uf}</strong>. Eu gosto de <strong>{this.renderInterests()}</strong>.
                                         Por favor me envie newsletter.
                                         Para me contatar ligue no telefone <strong>{phone}</strong>.
+                                        <ButtonWrapper>
+                                            <Button
+                                                type="submit"
+                                                color="success"
+                                                size='lg'
+                                                onClick={this.handleSubmit}
+                                            >
+                                                Enviar
+                                            </Button>
+                                        </ButtonWrapper>
                                     </Content>
-                                    <Button
-                                        type="submit"
-                                        color="success"
-                                        size='lg'
-                                        onClick={this.handleSubmit}
-                                    >
-                                        Enviar
-                                    </Button>
                                 </Fragment>
+                                :
+                                null
+                            }
+                            {response
+                                ?
+                                <Content>
+                                    {response}
+                                </Content>
                                 :
                                 null
                             }

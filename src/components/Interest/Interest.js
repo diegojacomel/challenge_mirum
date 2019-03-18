@@ -49,16 +49,16 @@ class Interest extends Component {
     }
 
     addInterest = (e) => {
-        const { state, props: { dispatch } } = this;
+        const { state, props: { dispatch, formReducer } } = this;
+        const { register: { interest } } = formReducer;
         const { target: { value } } = e;
 
         if (e.key === 'Enter' && !!state.typed) {
-            let tagsJoined = state.tags.concat(value);
+            const tagsJoined = interest;
+            tagsJoined.push(value);
 
             this.setState({
-                ...state,
-                typed: '',
-                tags: tagsJoined
+                typed: ''
             })
 
             dispatch({
@@ -69,13 +69,10 @@ class Interest extends Component {
     }
 
     removeInterest = (index) => {
-        const { state, props: { dispatch } } = this;
+        const { props: { dispatch, formReducer } } = this;
+        const { register: { interest } } = formReducer;
         
-        let tagsEdited = state.tags.filter(x => state.tags.indexOf(x) !== index);
-
-        this.setState({
-            tags: tagsEdited
-        })
+        let tagsEdited = interest.filter(x => interest.indexOf(x) !== index);
 
         dispatch({
             type: EDIT_INTERESTS.SUCCESS,
@@ -84,7 +81,7 @@ class Interest extends Component {
     }
 
     render() {
-        const { state, props: { id, name, placeholder, type, formReducer, ...rest } } = this;
+        const { state, props: { parentValue, id, name, placeholder, type, formReducer, ...rest } } = this;
         const { register: { interest } } = formReducer;
 
         return (
@@ -101,7 +98,7 @@ class Interest extends Component {
                         {...rest}
                     />
                 </InterestStyled>
-                {!!state.tags.length
+                {!!interest.length
                     ?
                     <InterestTags>
                         {interest.map((tag, indexTag) => (

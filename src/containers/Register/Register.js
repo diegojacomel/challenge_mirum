@@ -79,12 +79,6 @@ class Register extends Component {
         })
     }
 
-    handleSubmit = () => {
-        this.setState({
-            redirect: true
-        })
-    }
-
     render() {
         const { state, props: { formReducer } } = this;
         const { register } = formReducer;
@@ -105,9 +99,14 @@ class Register extends Component {
                     <ContentWrapperMain>
                     <Container>
                         <Formik
-                            enableReinitialize={true}
                             initialValues={register}
                             onSubmit={(values, { setSubmitting }) => {
+                                this.registerData(values)
+
+                                this.setState({
+                                    redirect: true
+                                })
+
                                 setTimeout(() => {
                                     setSubmitting(false);
                                 }, 500);
@@ -122,8 +121,8 @@ class Register extends Component {
                                     isSubmitting,
                                     handleChange,
                                     handleBlur,
-                                    isValid,
-                                    setFieldValue
+                                    handleSubmit,
+                                    isValid
                                 } = form;
 
                                 return (
@@ -169,12 +168,10 @@ class Register extends Component {
                                             <Label>
                                                 Idade
                                             </Label>
-                                            <Field
+                                            <RadioGroup
                                                 id="radioGroup"
+                                                parentValue={values.radioGroup}
                                                 name="radioGroup"
-                                                component={RadioGroup} 
-                                                onChange={handleChange}
-                                                onBlur={() => this.registerData(values)}
                                             />
                                         </FormControl>
                                         <FormControl>
@@ -304,12 +301,12 @@ class Register extends Component {
                                             <Label>
                                                 Interesse
                                             </Label>
-                                            <Field
-                                                component={Interest}
+                                            <Interest
+                                                parentValue={values.interest}
                                                 id="interest"
                                                 name="interest"
-                                                placeholder="Digite seu interesse e aperte Enter"
                                                 type="text"
+                                                placeholder="Digite seu interesse e aperte Enter"
                                             />
                                         </FormControl>
                                         <NewsletterSpacing>
@@ -329,8 +326,8 @@ class Register extends Component {
                                             type="button"
                                             color="success"
                                             size='lg'
-                                            disabled={!!errors.length}
-                                            onClick={() => this.handleSubmit()}
+                                            disabled={!isValid}
+                                            onClick={handleSubmit}
                                         >
                                             {isSubmitting
                                                 ?

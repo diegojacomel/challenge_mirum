@@ -16,7 +16,7 @@ function* sendData(action) {
             yield put({ type: SEND_POST.SUCCESS, message: 'Dados enviados com sucesso.' });
         }
     } catch (e) {
-        yield put({ type: SEND_POST.FAILURE, message: 'Ocorreu um erro ao tentar enviar os dados.' });
+        yield put({ type: SEND_POST.FAILURE, message: 'Dados prontos para serem enviados, porém é necessário um ambiente para enviar o POST.' });
     }
 }
 
